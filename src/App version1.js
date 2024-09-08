@@ -46,38 +46,73 @@ export default function App() {
                         Step {currentStep}: {messages[currentStep - 1]}
                     </p>
                     <div className="buttons">
-                        <Button
-                            textColor="#fff"
-                            bgColor="#7950F2"
+                        <button
+                            style={{
+                                backgroundColor: "#7950F2",
+                                color: "#fff",
+                            }}
                             onClick={handlePrevious}
                         >
-                            <span>👈</span>Previous
-                        </Button>
-                        <Button
-                            textColor="#fff"
-                            bgColor="#7950F2"
+                            previous
+                        </button>
+                        <button
+                            style={{
+                                backgroundColor: "#7950F2",
+                                color: "#fff",
+                            }}
                             onClick={handleNext}
                         >
-                            Next<span>👉</span>
-                        </Button>
+                            next
+                        </button>
                     </div>
                 </div>
             )}
+            <Counter />
         </React.Fragment>
     );
 }
 
-function Button({ textColor, bgColor, onClick, children }) {
+function Counter() {
+    const [step, setStep] = useState(1);
+    const [count, setCount] = useState(0);
+    const date = new Date();
+    date.setDate(date.getDate() + count);
+
+    function addStep() {
+        setStep((s) => s + 1);
+    }
+
+    function reduceStep() {
+        setStep((s) => s - 1);
+    }
+
+    function addCount() {
+        setCount((c) => c + step);
+    }
+
+    function reduceCount() {
+        setCount((c) => c - step);
+    }
     return (
-        //Children is a react Keyword that will pass the emoji and the text - represents children prop
-        <button
-            style={{
-                backgroundColor: bgColor,
-                color: textColor,
-            }}
-            onClick={onClick}
-        >
-            {children}
-        </button>
+        <div>
+            <div>
+                <button onClick={reduceStep}>-</button>
+                <span>step: {step}</span>
+                <button onClick={addStep}>+</button>
+            </div>
+            <div>
+                <button onClick={reduceCount}>-</button>
+                <span>count: {count}</span>
+                <button onClick={addCount}>+</button>
+            </div>
+            <p>
+                {count === 0
+                    ? "Today is"
+                    : count > 0
+                    ? `${count} days from today will be `
+                    : `${count} days from today was `}
+                {date.toDateString()}
+            </p>
+        </div>
     );
 }
