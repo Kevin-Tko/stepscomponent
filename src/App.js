@@ -31,39 +31,57 @@ export default function App() {
             </button>
             {isOpen && (
                 <div className="steps">
-                    <div className="numbers">
-                        <div className={currentStep >= 1 ? "active" : ""}>
-                            1
-                        </div>
-                        <div className={currentStep >= 2 ? "active" : ""}>
-                            2
-                        </div>
-                        <div className={currentStep >= 3 ? "active" : ""}>
-                            3
-                        </div>
-                    </div>
-                    <p className="message">
-                        Step {currentStep}: {messages[currentStep - 1]}
-                    </p>
-                    <div className="buttons">
-                        <Button
-                            textColor="#fff"
-                            bgColor="#7950F2"
-                            onClick={handlePrevious}
-                        >
-                            <span>👈</span>Previous
-                        </Button>
-                        <Button
-                            textColor="#fff"
-                            bgColor="#7950F2"
-                            onClick={handleNext}
-                        >
-                            Next<span>👉</span>
-                        </Button>
-                    </div>
+                    {/* Three number components */}
+                    {Array.from({ length: 3 }, (_, id) => id + 1).map(
+                        (_, idx) => (
+                            <Number
+                                currStep={currentStep}
+                                index={idx + 1}
+                                key={idx + 1}
+                            />
+                        )
+                    )}
+
+                    {/* Text component */}
+                    <Message step={currentStep}>
+                        {messages[currentStep - 1]}
+                    </Message>
+
+                    {/* Button componenets */}
+                    <Button
+                        textColor="#fff"
+                        bgColor="#7950F2"
+                        onClick={handlePrevious}
+                    >
+                        <span>👈</span>Previous
+                    </Button>
+                    <Button
+                        textColor="#fff"
+                        bgColor="#7950F2"
+                        onClick={handleNext}
+                    >
+                        Next<span>👉</span>
+                    </Button>
                 </div>
             )}
         </React.Fragment>
+    );
+}
+
+function Number({ currStep, index }) {
+    return (
+        <div className="numbers">
+            <div className={currStep >= index ? "active" : ""}>{index}</div>
+        </div>
+    );
+}
+
+function Message({ step, children }) {
+    return (
+        <p className="message">
+            <span>Step {step}</span>
+            {children}
+        </p>
     );
 }
 
